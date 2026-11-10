@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bé luyện tính – Phép trừ có nhớ</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#fff8ec;--ink:#3a2e5c;--card:#fff;--a:#ff7a59;--b:#4cc9a0;--c:#5b8def;--d:#f7b801;--soft:#f2ecff}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Baloo 2',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-size:20px}
+  header{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:10px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  header h1{font-size:22px;margin:0;flex:1}
+  .stars{font-size:22px;font-weight:800;background:#fff2;padding:2px 12px;border-radius:20px}
+  .btn{font-family:inherit;font-weight:700;font-size:18px;border:0;border-radius:14px;padding:8px 16px;cursor:pointer;box-shadow:0 3px 0 #0002}
+  .btn:active{transform:translateY(2px);box-shadow:none}
+  .new{background:var(--d);color:var(--ink)}
+  main{max-width:900px;margin:0 auto;padding:16px}
+  section{background:var(--card);border-radius:22px;padding:16px 18px;margin-bottom:18px;box-shadow:0 4px 0 #0001}
+  section h2{margin:0 0 10px;font-size:24px}
+  .tag{display:inline-block;color:#fff;border-radius:10px;padding:0 10px;margin-right:6px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+  .col{background:var(--soft);border-radius:18px;padding:10px 14px 14px;position:relative;text-align:center}
+  .lbl{position:absolute;left:12px;top:8px;font-weight:800;color:var(--c)}
+  .vert{display:inline-grid;grid-template-columns:28px 30px 30px;font-size:36px;font-weight:800;line-height:1.15;margin-top:14px}
+  .vert .op{color:var(--a)}
+  .line{grid-column:1/4;border-top:4px solid var(--ink);margin:4px 0}
+  input.ans{font-family:inherit;font-weight:800;font-size:32px;width:84px;text-align:center;border:3px dashed #b9a9e8;border-radius:12px;background:#fff;color:var(--ink);padding:0}
+  input.ans.sm{font-size:26px;width:70px}
+  input.ok{border:3px solid var(--b);background:#e6fbf3}
+  input.bad{border:3px solid var(--a);background:#fff0eb;animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .row{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .chk{background:var(--c);color:#fff;font-size:16px;padding:6px 12px}
+  .hint{background:#fff;color:var(--c);border:2px solid var(--c);font-size:16px;padding:4px 10px;box-shadow:none}
+  .say{font-size:17px;line-height:1.4;text-align:left;margin-top:8px;background:#fff;border-radius:12px;padding:8px 10px;display:none}
+  .say.show{display:block}
+  .fb{min-height:28px;font-weight:800;margin-top:6px}
+  .expr{background:var(--soft);border-radius:18px;padding:12px 14px;margin-bottom:12px}
+  .expr .q{font-size:30px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .expr .q2{font-size:30px;font-weight:800;display:flex;align-items:center;gap:8px;margin-top:6px;flex-wrap:wrap}
+  .pad{visibility:hidden}
+  .story{font-size:22px;line-height:1.5;background:var(--soft);border-radius:18px;padding:12px 16px}
+  .story b{color:var(--a)}
+  .sol{margin-top:12px;font-size:24px;font-weight:700;line-height:1.9}
+  .sol input{vertical-align:middle}
+  .big{font-size:22px;margin:10px auto 0;display:block}
+  #cheer{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:#3a2e5ccc;z-index:20;color:#fff;text-align:center;font-size:40px;font-weight:800}
+  #cheer.show{display:flex}
+  .conf{position:fixed;top:-20px;font-size:28px;z-index:21;animation:fall 2.2s linear forwards;pointer-events:none}
+  @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧮 Bé luyện tính</h1>
+  <span class="stars">⭐ <span id="score">0</span>/<span id="total">7</span></span>
+  <button class="btn new" id="newBtn">🔄 Đổi số mới</button>
+</header>
+<main>
+  <section>
+    <h2><span class="tag" style="background:var(--a)">Bài 1</span>Đặt tính rồi tính</h2>
+    <div class="grid" id="b1"></div>
+  </section>
+  <section>
+    <h2><span class="tag" style="background:var(--b)">Bài 2</span>Tính</h2>
+    <div id="b2"></div>
+  </section>
+  <section>
+    <h2><span class="tag" style="background:var(--c)">Bài 3</span>Giải toán</h2>
+    <div id="b3"></div>
+  </section>
+</main>
+<div id="cheer"><div>🎉 Giỏi quá!<br>Con làm đúng hết rồi!<br><button class="btn new big" onclick="this.closest('#cheer').classList.remove('show')">Tiếp tục</button></div></div>
+
+<script>
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+let done=new Set(), round=0;
+
+function subHint(a,b){
+  const ua=a%10,ub=b%10,ta=Math.floor(a/10),tb=Math.floor(b/10);
+  if(ua<ub){const r1=10+ua-ub,r2=ta-tb-1;
+    return `• <b>${ua}</b> không trừ được <b>${ub}</b>, lấy <b>1${ua}</b> trừ <b>${ub}</b> bằng <b>${r1}</b>, viết ${r1}, nhớ 1.<br>• <b>${tb}</b> thêm 1 bằng <b>${tb+1}</b>, <b>${ta}</b> trừ <b>${tb+1}</b> bằng <b>${r2}</b>, viết ${r2}.`;}
+  return `• <b>${ua}</b> trừ <b>${ub}</b> bằng <b>${ua-ub}</b>, viết ${ua-ub}.<br>• <b>${ta}</b> trừ <b>${tb}</b> bằng <b>${ta-tb}</b>, viết ${ta-tb}.`;
+}
+function addHint(a,b){
+  const s=a%10+b%10,c=s>=10?1:0;
+  return c?`• <b>${a%10}</b> cộng <b>${b%10}</b> bằng <b>${s}</b>, viết ${s%10}, nhớ 1.<br>• <b>${Math.floor(a/10)}</b> cộng <b>${Math.floor(b/10)}</b> bằng ${Math.floor(a/10)+Math.floor(b/10)}, thêm 1 bằng <b>${Math.floor(a/10)+Math.floor(b/10)+1}</b>.`
+          :`• Cộng đơn vị: ${a%10} + ${b%10} = ${s}.<br>• Cộng chục: ${Math.floor(a/10)} + ${Math.floor(b/10)} = ${Math.floor(a/10)+Math.floor(b/10)}.`;
+}
+function opHint(a,op,b){return op==='+'?addHint(a,b):subHint(a,b)}
+
+function genSub(){ // phép trừ có nhớ, kết quả >= 10
+  while(true){const a=rnd(41,98),b=rnd(12,a-10);if(a%10<b%10&&a-b>=10)return[a,b];}
+}
+function gen(){
+  if(round===0) return {
+    b1:[[76,17],[65,28],[54,37],[93,49]],
+    b2:[[56,'+',17,'-',28],[91,'-',65,'+',17]],
+    b3:{me:32,x:25,y:18}
+  };
+  const b1=[genSub(),genSub(),genSub(),genSub()];
+  let p; do{p=[rnd(25,69),rnd(11,29)]}while(p[0]+p[1]>99||(p[0]%10+p[1]%10)<10);
+  let c; do{c=rnd(12,p[0]+p[1]-10)}while((p[0]+p[1])%10>=c%10);
+  const q=genSub(); let d=rnd(11,29); while(q[0]-q[1]+d>99)d--;
+  const x=rnd(21,39); let y; do{y=rnd(11,x-3)}while(x%10>=y%10||x-y>12);
+  return {b1,b2:[[p[0],'+',p[1],'-',c],[q[0],'-',q[1],'+',d]],b3:{me:rnd(28,40),x,y}};
+}
+const calc=(a,o,b)=>o==='+'?a+b:a-b;
+
+function check(inp,ans,fb,id){
+  const v=inp.value.trim();
+  if(v===''){fb.textContent='Con hãy điền kết quả nhé!';fb.style.color='#5b8def';return false}
+  inp.classList.remove('ok','bad');void inp.offsetWidth;
+  if(+v===ans){inp.classList.add('ok');fb.textContent='✅ Đúng rồi!';fb.style.color='#2a9d74';
+    if(id&&!done.has(id)){done.add(id);upd()} return true}
+  inp.classList.add('bad');fb.textContent='❌ Chưa đúng, con thử lại nhé!';fb.style.color='#e0573a';return false;
+}
+function upd(){
+  document.getElementById('score').textContent=done.size;
+  if(done.size===7){document.getElementById('cheer').classList.add('show');confetti()}
+}
+function confetti(){const e=['🎉','⭐','🎈','✨','🌟'];for(let i=0;i<30;i++){const s=document.createElement('div');s.className='conf';s.textContent=e[i%5];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*0.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3200)}}
+function enter(inp,fn){inp.addEventListener('keydown',e=>{if(e.key==='Enter')fn()})}
+
+function render(){
+  done=new Set();upd();
+  const D=gen();
+  // Bài 1
+  const b1=document.getElementById('b1');b1.innerHTML='';
+  D.b1.forEach(([a,b],i)=>{
+    const L='abcd'[i],ans=a-b,id='1'+L;
+    const el=document.createElement('div');el.className='col';
+    el.innerHTML=`<span class="lbl">${L}.</span>
+      <div class="vert"><span></span><span>${Math.floor(a/10)}</span><span>${a%10}</span>
+      <span class="op">−</span><span>${Math.floor(b/10)}</span><span>${b%10}</span>
+      <div class="line"></div></div>
+      <div><input class="ans" inputmode="numeric" maxlength="3" aria-label="Kết quả ${a} trừ ${b}"></div>
+      <div class="fb"></div>
+      <div class="row"><button class="btn chk">Kiểm tra</button><button class="btn hint">💡 Gợi ý</button></div>
+      <div class="say">${subHint(a,b)}</div>`;
+    const inp=el.querySelector('input'),fb=el.querySelector('.fb');
+    const go=()=>check(inp,ans,fb,id);
+    el.querySelector('.chk').onclick=go;enter(inp,go);
+    el.querySelector('.hint').onclick=()=>el.querySelector('.say').classList.toggle('show');
+    b1.appendChild(el);
+  });
+  // Bài 2
+  const b2=document.getElementById('b2');b2.innerHTML='';
+  D.b2.forEach(([a,o1,b,o2,c],i)=>{
+    const L='ab'[i],mid=calc(a,o1,b),fin=calc(mid,o2,c),id='2'+L;
+    const s=x=>x==='-'?'−':'+';
+    const el=document.createElement('div');el.className='expr';
+    el.innerHTML=`<div class="q"><span style="color:var(--c)">${L}.</span> ${a} ${s(o1)} ${b} ${s(o2)} ${c} = <input class="ans sm m" inputmode="numeric" maxlength="3"> ${s(o2)} ${c}</div>
+      <div class="q2"><span class="pad">${L}. ${a} ${s(o1)} ${b} ${s(o2)} ${c}</span> = <input class="ans sm f" inputmode="numeric" maxlength="3"></div>
+      <div class="fb"></div>
+      <div class="row" style="justify-content:flex-start"><button class="btn chk">Kiểm tra</button><button class="btn hint">💡 Gợi ý</button></div>
+      <div class="say">Tính lần lượt <b>từ trái sang phải</b>:<br><u>Bước 1:</u> ${a} ${s(o1)} ${b}<br>${opHint(a,o1,b)}<br><u>Bước 2:</u> lấy kết quả ${s(o2)} ${c}</div>`;
+    const m=el.querySelector('.m'),f=el.querySelector('.f'),fb=el.querySelector('.fb');
+    const go=()=>{ if(check(m,mid,fb,null)){ if(f.value.trim()===''){fb.textContent='👍 Bước 1 đúng rồi! Giờ tính tiếp dòng dưới nhé.';fb.style.color='#2a9d74';f.focus();return}
+        check(f,fin,fb,id)} else if(m.value.trim()!=='') fb.textContent='❌ Bước 1 chưa đúng, con tính lại '+a+' '+s(o1)+' '+b+' nhé!'; };
+    el.querySelector('.chk').onclick=go;enter(m,go);enter(f,go);
+    el.querySelector('.hint').onclick=()=>el.querySelector('.say').classList.toggle('show');
+    b2.appendChild(el);
+  });
+  // Bài 3
+  const {me,x,y}=D.b3,ans=x-y;
+  const b3=document.getElementById('b3');
+  b3.innerHTML=`<div class="story">Năm nay mẹ <b>${me}</b> tuổi. Số tuổi của con năm nay là <b>hiệu của ${x} và ${y}</b>. Hỏi năm nay con bao nhiêu tuổi?</div>
+    <div class="sol">Bài giải<br>Số tuổi của con năm nay là:<br>
+      <input class="ans sm p1" inputmode="numeric" maxlength="2"> − <input class="ans sm p2" inputmode="numeric" maxlength="2"> = <input class="ans sm p3" inputmode="numeric" maxlength="2"> (tuổi)<br>
+      Đáp số: <input class="ans sm p4" inputmode="numeric" maxlength="2"> tuổi</div>
+    <div class="fb"></div>
+    <div class="row" style="justify-content:flex-start"><button class="btn chk">Kiểm tra</button><button class="btn hint">💡 Gợi ý</button></div>
+    <div class="say">“<b>Hiệu</b> của ${x} và ${y}” nghĩa là lấy <b>${x} trừ ${y}</b>.<br>Số tuổi của mẹ (${me}) <b>không cần dùng</b> để tính đâu nhé! 😉</div>`;
+  const P=[...b3.querySelectorAll('input')],fb3=b3.querySelector('.fb');
+  const go3=()=>{
+    const want=[x,y,ans,ans];let ok=true;
+    P.forEach((p,i)=>{p.classList.remove('ok','bad');void p.offsetWidth;if(+p.value.trim()===want[i]&&p.value.trim()!=='')p.classList.add('ok');else{p.classList.add('bad');ok=false}});
+    if(ok){fb3.textContent='✅ Tuyệt vời! Con năm nay '+ans+' tuổi.';fb3.style.color='#2a9d74';if(!done.has('3')){done.add('3');upd()}}
+    else{fb3.textContent='❌ Ô màu cam chưa đúng, con xem lại nhé!';fb3.style.color='#e0573a'}
+  };
+  b3.querySelector('.chk').onclick=go3;P.forEach(p=>enter(p,go3));
+  b3.querySelector('.hint').onclick=()=>b3.querySelector('.say').classList.toggle('show');
+}
+document.getElementById('newBtn').onclick=()=>{round++;render();window.scrollTo({top:0,behavior:'smooth'})};
+render();
+</script>
+</body>
+</html>

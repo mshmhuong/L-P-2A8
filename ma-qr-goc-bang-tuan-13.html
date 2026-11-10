@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mã QR Góc Bảng Tuần 13</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap">
+<style>
+:root{--bg:#f3f6ee;--ink:#22312a;--muted:#5f7068;--board:#2f5d4a;--chalk:#f7f3e3;--sun:#f4b63b;--display:"Baloo 2","Nunito",system-ui,sans-serif;--body:"Nunito",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root{--bg:#18211d;--ink:#eef3ea;--muted:#a8b8ae;color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:520px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.poster{background:var(--board);color:var(--chalk);border:8px solid #8a6a43;border-radius:22px;padding:22px;text-align:center}
+h1{font-family:var(--display);font-size:2rem;line-height:1.1;margin:0;text-wrap:balance}
+.sub{opacity:.85;margin-top:4px}
+#qr{background:#fff;border-radius:16px;padding:16px;margin:18px auto;width:max-content;max-width:100%}
+#qr img,#qr canvas{display:block;width:260px;max-width:100%;height:auto}
+.cta{font-family:var(--display);font-size:1.35rem;color:var(--sun)}
+.tip{color:var(--muted);font-size:.95rem;text-align:center;margin-top:14px;line-height:1.5}
+.link{word-break:break-all;font-size:.85rem;opacity:.8;margin-top:8px}
+</style></head><body>
+<div class="wrap">
+ <div class="poster">
+  <h1>Từ vựng Góc Bảng · Tuần 13</h1>
+  <div class="sub">Lớp 2A8 · 09–14/11/2026</div>
+  <div id="qr" aria-label="Mã QR mở trò chơi"></div>
+  <div class="cta">📱 Quét mã để chơi và học 7 từ mới</div>
+  <div class="link">mshmhuong.github.io/L-P-2A8/goc-bang-tuan-13.html</div>
+ </div>
+ <p class="tip">Trên điện thoại: chạm giữ vào mã QR để lưu ảnh, hoặc chụp màn hình để in và gửi nhóm phụ huynh.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+try{new QRCode(document.getElementById('qr'),{text:'https://mshmhuong.github.io/L-P-2A8/goc-bang-tuan-13.html',width:520,height:520,colorDark:'#1f3d31',colorLight:'#ffffff',correctLevel:QRCode.CorrectLevel.M})}
+catch(e){document.getElementById('qr').textContent='Không tạo được mã QR, hãy tải lại trang.'}
+</script>
+</body></html>
